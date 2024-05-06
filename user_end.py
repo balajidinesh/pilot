@@ -1,6 +1,6 @@
 import asyncio
 import time
-
+from ollama import AsyncClient
 from prompt_toolkit import prompt
 
 from config import Config
@@ -11,6 +11,7 @@ from ollama_host import CLIENT
 
 current_system = OperatingSystem()
 current_config = Config()
+
 
 
 def operate_with_args(
@@ -40,6 +41,8 @@ def operate_with_args(
             operations, session_id = asyncio.run(
                 model_prompt.call_ollama_llava()
             )
+
+            print(operations)
 
             stop = operate(operations)
             if stop:
