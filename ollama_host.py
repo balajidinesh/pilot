@@ -19,16 +19,16 @@ BASEMODEL = 'llava'
 MODEL = 'operate-v'
 
 
-def model_from_llava(client=CLIENT, model=MODEL, model_file=MODEL_FILE_DEF):
+async def model_from_llava(client=CLIENT, model=MODEL, model_file=MODEL_FILE_DEF):
     try:
-        client.chat(model=BASEMODEL)
+        await client.chat(model=BASEMODEL)
     except ollama.ResponseError as e:
         print('Error:', e.error)
         if e.status_code == 404:
-            client.pull(BASEMODEL)
+            await client.pull(BASEMODEL)
     try:
-        client.chat(model=model)
+        await client.chat(model=model)
     except ollama.ResponseError as e:
         print('Error:', e.error)
         if e.status_code == 404:
-            client.create(model=MODEL, modelfile=model_file)
+            await client.create(model=MODEL, modelfile=model_file)
