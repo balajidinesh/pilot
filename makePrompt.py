@@ -115,6 +115,9 @@ class ModelPrompt:
 
             self.messages.append(vision_message)
 
+            with open(os.path.join(screenshots_dir, "screenshot.txt"),"w") as f :
+                f.write('\n'.join(str(i) for i in self.messages))
+
             response = await self.client.chat(
                 model=MODEL,
                 messages=self.messages,
