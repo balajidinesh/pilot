@@ -88,7 +88,7 @@ class ModelPrompt:
         )
         return prompt
 
-    async def call_ollama_llava(self):
+    def call_ollama_llava(self):
 
         screenshots_dir = make_ss_dir()
         time.sleep(1)
@@ -115,14 +115,15 @@ class ModelPrompt:
 
             self.messages.append(vision_message)
 
-            with open(os.path.join(screenshots_dir, "screenshot.txt"),"w") as f :
+            with open(os.path.join(screenshots_dir, "screenshot.txt"), "w") as f:
                 f.write('\n'.join(str(i) for i in self.messages))
 
-            response = await self.client.chat(
+            response = self.client.chat(
                 model=MODEL,
                 messages=self.messages,
             )
 
+            print(response)
             # Important: Remove the image path from the message history.
             # Ollama will attempt to load each image reference and will
             # eventually time out.
