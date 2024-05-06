@@ -38,9 +38,7 @@ def operate_with_args(
         print("[Self Operating Computer] loop_count", loop_count)
 
         try:
-            operations = asyncio.run(
-                model_prompt.call_ollama_llava()
-            )
+            operations = model_prompt.call_ollama_llava()
 
             print(operations)
 
