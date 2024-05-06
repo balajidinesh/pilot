@@ -1,3 +1,4 @@
+import asyncio
 import json
 import os
 import time
@@ -77,7 +78,7 @@ class ModelPrompt:
         self.software = software
         self.client = client
 
-        model_from_llava()
+        asyncio.run(model_from_llava())
 
     def get_prompt(self):
         prompt = get_system_prompt(
