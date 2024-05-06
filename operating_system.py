@@ -82,13 +82,13 @@ class OperatingSystem:
                 side = click_detail.get("side")
                 hold = with_key_hold
                 if hold:
-                    with_key_hold(hold, release=False)
+                    self.key_hold_release(hold, release=False)
                 x_vector, y_vector = click_detail.get("vector")
                 pyautogui.mouseDown(button=side)
                 pyautogui.moveRel(x_vector, y_vector, duration=0.5)
                 pyautogui.mouseUp(button=side)
                 if hold:
-                    with_key_hold(hold)
+                    self.key_hold_release(hold)
             else:
                 happened = False
             return happened

@@ -3,3 +3,4 @@ PyAutoGUI~=0.9.54
 ollama~=0.1.9
 prompt_toolkit
 pyscreeze
+Pillow~=10.3.0
