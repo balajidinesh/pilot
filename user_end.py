@@ -7,7 +7,7 @@ from config import Config
 from defaults import get_system_prompt
 from makePrompt import ModelPrompt
 from operating_system import OperatingSystem
-from ollama_host import CLIENT, model_from_llava
+from ollama_host import CLIENT, model_from_llava, CLIENT2
 
 current_system = OperatingSystem()
 current_config = Config()
@@ -23,7 +23,7 @@ def operate_with_args(
     print("[USER]")
     objective = prompt('Enter the objective or task you need help with : ')
 
-    model_prompt = ModelPrompt(objective=objective, software=software, client=CLIENT)
+    model_prompt = ModelPrompt(objective=objective, software=software, client=CLIENT2)
     asyncio.run(model_from_llava())
 
     system_prompt = model_prompt.get_prompt()

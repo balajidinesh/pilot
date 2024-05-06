@@ -1,9 +1,10 @@
 import ollama
-from ollama import AsyncClient
+from ollama import AsyncClient,Client
 
 # client = Client(host="localhost", port=8080)
 
 CLIENT = AsyncClient(host='http://localhost:11434')
+CLIENT2 = Client(host='http://localhost:11434')
 
 MODEL_FILE_DEF = '''
 FROM llava:latest
