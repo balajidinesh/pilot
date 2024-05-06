@@ -7,11 +7,10 @@ from config import Config
 from defaults import get_system_prompt
 from makePrompt import ModelPrompt
 from operating_system import OperatingSystem
-from ollama_host import CLIENT
+from ollama_host import CLIENT, model_from_llava
 
 current_system = OperatingSystem()
 current_config = Config()
-
 
 
 def operate_with_args(
@@ -25,6 +24,7 @@ def operate_with_args(
     objective = prompt('Enter the objective or task you need help with : ')
 
     model_prompt = ModelPrompt(objective=objective, software=software, client=CLIENT)
+    asyncio.run(model_from_llava())
 
     system_prompt = model_prompt.get_prompt()
 
@@ -38,7 +38,7 @@ def operate_with_args(
         print("[Self Operating Computer] loop_count", loop_count)
 
         try:
-            operations, session_id = asyncio.run(
+            operations = asyncio.run(
                 model_prompt.call_ollama_llava()
             )
 

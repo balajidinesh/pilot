@@ -78,8 +78,6 @@ class ModelPrompt:
         self.software = software
         self.client = client
 
-        asyncio.run(model_from_llava())
-
     def get_prompt(self):
         prompt = get_system_prompt(
             software=self.software,
@@ -122,7 +120,6 @@ class ModelPrompt:
                 messages=self.messages,
             )
 
-
             # Important: Remove the image path from the message history.
             # Ollama will attempt to load each image reference and will
             # eventually time out.
@@ -130,15 +127,12 @@ class ModelPrompt:
             self.messages[-1]["images"] = None
 
             content = response["message"]["content"].strip()
-
             content = clean_json(content)
 
             assistant_message = {"role": "assistant", "content": content}
-
             content = json.loads(content)
 
             self.messages.append(assistant_message)
-
             return content
 
         except Exception as e:
