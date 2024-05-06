@@ -1,0 +1,4 @@
+xlib~=0.21
+PyAutoGUI~=0.9.54
+ollama~=0.1.9
+prompt_toolkit
