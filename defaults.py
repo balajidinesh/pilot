@@ -1,3 +1,6 @@
+pretext = " especially to help in {software} and collaborate with the human in his work."
+
+
 def get_system_prompt(
         objective,
         cmd_string,

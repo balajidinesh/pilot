@@ -1,11 +1,9 @@
 import json
 import os
-import platform
 import time
 
-import ollama
-
 from defaults import OPERATE_PROMPT, OPERATE_FIRST_MESSAGE_PROMPT, get_system_prompt
+from ollama_host import MODEL, model_from_llava
 from operating_system import OperatingSystem
 
 
@@ -36,15 +34,15 @@ def return_os_keys():
     if os_object.os_name == "Darwin":
         cmd_string = "command"
         os_search_str = ["command", "space"]
-        operating_system = "Mac"
+        # operating_system = "Mac"
     elif os_object.os_name == "Windows":
         cmd_string = "ctrl"
         os_search_str = ["win"]
-        operating_system = "Windows"
+        # operating_system = "Windows"
     else:
         cmd_string = "ctrl"
         os_search_str = ["win"]
-        operating_system = "Linux"
+        # operating_system = "Linux"
 
     return cmd_string, os_search_str, os_object
 
@@ -71,12 +69,15 @@ def clean_json(content):
 
 class ModelPrompt:
 
-    def __init__(self, objective, software):
+    def __init__(self, objective, software, client):
         self.cmd_string, self.os_search_str, self.operating_system = return_os_keys()
-        self.model = 'llava'
+        self.model = MODEL
         self.messages = []
         self.objective = objective
         self.software = software
+        self.client = client
+
+        model_from_llava()
 
     def get_prompt(self):
         prompt = get_system_prompt(
@@ -112,14 +113,14 @@ class ModelPrompt:
 
             self.messages.append(vision_message)
 
-            response = ollama.chat(
+            response = self.client.chat(
                 model="llava",
                 messages=self.messages,
             )
 
             # Important: Remove the image path from the message history.
             # Ollama will attempt to load each image reference and will
-            # eventually timeout.
+            # eventually time out.
 
             self.messages[-1]["images"] = None
 

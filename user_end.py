@@ -7,6 +7,7 @@ from config import Config
 from defaults import get_system_prompt
 from makePrompt import ModelPrompt
 from operating_system import OperatingSystem
+from ollama_host import CLIENT
 
 current_system = OperatingSystem()
 current_config = Config()
@@ -22,7 +23,7 @@ def operate_with_args(
     print("[USER]")
     objective = prompt('Enter the objective or task you need help with : ')
 
-    model_prompt = ModelPrompt(objective=objective, software=software)
+    model_prompt = ModelPrompt(objective=objective, software=software, client=CLIENT)
 
     system_prompt = model_prompt.get_prompt()
 
@@ -64,7 +65,7 @@ def operate(operations):
         if operate_type == "press" or operate_type == "hotkey":
             keys = operation.get("keys")
             operate_detail = keys
-            current_system.press(keys)
+            current_system.press_keys(keys)
         elif operate_type == "write":
             content = operation.get("content")
             operate_detail = content
@@ -72,9 +73,9 @@ def operate(operations):
         elif operate_type == "click":
             x = operation.get("x")
             y = operation.get("y")
-            click_detail = {"x": x, "y": y}
+            click_detail = {"action": "click", "x": x, "y": y}
             operate_detail = click_detail
-            current_system.mouse(click_detail)
+            current_system.mouse_actions(click_detail)
         elif operate_type == "done":
             summary = operation.get("summary")
             return True
