@@ -57,13 +57,14 @@ class OperatingSystem:
         except Exception as e:
             print(f"[Class OperatingSystem][{self.os_name}]Exception while pressing keys", e)
 
-    def mouse_actions(self, click_detail, with_key_hold=False, press_after_mouse=False):
+    def mouse_actions(self, click_detail, with_key_hold=False, press_after_mouse=False, percent_or_decimal=False):
         # todo make sure both with_key_hold, press_after_mouse never come at once
 
         try:
             happened = True
-            x = convert_percent_to_decimal(click_detail.get("x"))
-            y = convert_percent_to_decimal(click_detail.get("y"))
+
+            x = convert_percent_to_decimal(click_detail.get("x")) if percent_or_decimal else click_detail.get("x")
+            y = convert_percent_to_decimal(click_detail.get("y")) if percent_or_decimal else click_detail.get("y")
             action = click_detail.get("action")
 
             is_move = False
@@ -88,7 +89,7 @@ class OperatingSystem:
                 pyautogui.moveRel(x_vector, y_vector, duration=0.5)
                 pyautogui.mouseUp(button=side)
                 if hold:
-                    self.key_hold_release(hold)
+                    self.key_hold_release(hold, release=True)
             else:
                 happened = False
             return happened

@@ -41,17 +41,22 @@ def operate_logs(operations):
             keys = operation.get("data")
             operate_detail = keys
             current_system.press_keys(keys)
+        elif operate_type == "wait":
+            time.sleep(operation.get("data"))
         elif operate_type == "write":
             content = operation.get("data")
             operate_detail = content
             current_system.write(content)
         elif operate_type == "click":
             cords = operation.get("data")
+            ctype = cords.get("type")
+            amount = cords.get("amount")
             x = cords.get("x")
             y = cords.get("y")
-            click_detail = {"action": "click", "x": x, "y": y}
+            hold = cords.get("hold")
+            click_detail = {"action": ctype, "x": x, "y": y, "amount": amount}
             operate_detail = click_detail
-            current_system.mouse_actions(click_detail)
+            current_system.mouse_actions(click_detail, with_key_hold=hold)
         elif operate_type == "done":
             summary = operation.get("data")
             return True
