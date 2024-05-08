@@ -1,6 +1,7 @@
 import time
 
 from llava_logs import *
+from misc import show_toast_with_countdown
 
 
 def choose_to_rerun():
@@ -42,20 +43,23 @@ def operate_logs(operations):
             operate_detail = keys
             current_system.press_keys(keys)
         elif operate_type == "wait":
-            time.sleep(operation.get("data"))
+            message = operation.get("data").get("message")
+            sleep_time = operation.get("data").get("time")
+            show_toast_with_countdown(message, sleep_time)
         elif operate_type == "write":
             content = operation.get("data")
             operate_detail = content
             current_system.write(content)
-        elif operate_type == "click":
+        elif operate_type == "mouse":
             cords = operation.get("data")
-            ctype = cords.get("type")
+            ctype = cords.get("action")
             amount = cords.get("amount")
             x = cords.get("x")
             y = cords.get("y")
             hold = cords.get("hold")
             click_detail = {"action": ctype, "x": x, "y": y, "amount": amount}
             operate_detail = click_detail
+            # print(ctype)
             current_system.mouse_actions(click_detail, with_key_hold=hold)
         elif operate_type == "done":
             summary = operation.get("data")

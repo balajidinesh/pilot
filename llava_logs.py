@@ -56,7 +56,8 @@ operation_list = [
             make_op('press', ["win"]),  # Open search bar
             make_op("write", "Rhino"),  # Search for Rhino
             make_op("press", ["enter"]),  # Launch Rhino
-            make_op("wait", 30),  # wait for rhino to open
+            make_op("wait", {"message": "waiting for rhino to open and Maximize the window", "time": 50}),
+            # wait for rhino to open
             # make_op("press", ["win", "up"]),  # Maximize Rhino window (assuming "win" + "up" is the shortcut)
             make_op("write", "_MaxViewport"),  # Maximize perspective
             make_op("press", ["enter"]),
@@ -72,12 +73,13 @@ operation_list = [
             make_op("press", ["enter"]),
             make_op("done", "Opened Rhino and created a polygon with 5 edges")  # Objective completed
         ],
-        "safety_level": 1
+        "safety_level": 0
     },
     {
         "log_objective": "create two polygons and loft them in rhino",
         "operations": [
-            make_op("wait", 30),  # wait for rhino to open give time for the user to set up rhino
+            make_op("wait", {"message": "Focus on rhino Window and wait", "time": 30}),
+            # wait for rhino to open give time for the user to set up rhino
             make_op("write", "_MaxViewport"),  # Maximize perspective
             make_op("press", ["enter"]),
             make_op("write", "Polygon"),  # Use command to create a polygon
@@ -109,25 +111,65 @@ operation_list = [
     {
         "log_objective": "Create a shoe sole shape in 2D using points and then make a closed spline",
         "operations": [
-            make_op("wait", 30),  # Wait for Rhino to open, giving time for setup
-            make_op("write", "_MaxViewport"),  # Maximize viewport
+            make_op("wait", {"message": "Focus on rhino Window and wait", "time": 5}),
+            # make_op("write", "_MaxViewport"),  # Maximize viewport
+            # make_op("press", ["enter"]),
+            make_op("write", "InterpCrv"),
             make_op("press", ["enter"]),
-            make_op("done", "Opened Rhino and maximized viewport"),
-            make_op("wait", 10),  # Wait for user to position cursor
-            make_op("mouse", mouse_mapper(index=0, x=0.5, y=0.5)),  # Move mouse to center of viewport
-            make_op("wait", 5),  # Wait for cursor movement
-            make_op("mouse", mouse_mapper(index=0, hold=True, side=0)),  # Hold left click to create points
-            make_op("wait", 5),  # Wait for points to be created
-            make_op("mouse", mouse_mapper(index=0, x=0.5, y=0.8)),  # Move mouse to select all points
-            make_op("wait", 5),  # Wait for cursor movement
-            make_op("mouse", mouse_mapper(index=1)),  # Right click to select all points
-            make_op("wait", 5),  # Wait for context menu to appear
-            make_op("write", "_Spline"),  # Create spline from selected points
+            make_op("mouse", mouse_mapper(index=0, x=0.38, y=0.44)),
+            make_op("mouse", mouse_mapper(index=0, x=0.44, y=0.6)),
+            make_op("mouse", mouse_mapper(index=0, x=0.42, y=0.78)),
+            make_op("mouse", mouse_mapper(index=0, x=0.484, y=0.79 + 0.07)),
+            make_op("mouse", mouse_mapper(index=0, x=0.484+0.06, y=0.79-0.07)),
+            make_op("mouse", mouse_mapper(index=0, x=0.46+0.06, y=0.565)),
+            make_op("mouse", mouse_mapper(index=0, x=0.49+0.04, y=0.41)),
+            make_op("mouse", mouse_mapper(index=0, x=0.41+0.03, y=0.342-0.07)),
+            make_op("write", "P"),  # persistent close
             make_op("press", ["enter"]),
-            make_op("write", "C"),  # Close the spline
             make_op("press", ["enter"]),
+            make_op("write", "InterpCrv"),
+            make_op("press", ["enter"]),
+            make_op("write", "P"),  # persistent close reset
+            make_op("press", ["enter"]),
+            make_op("press",["esc"]),
             make_op("done", "Created shoe sole shape and closed spline in Rhino")  # Objective completed
         ],
-        "safety_level": 1
+        "safety_level": 0
+    },
+    {
+        "log_objective": "Make a Surface of the closed curve Rhino",
+        "operations": [
+            make_op("wait", {"message": "Please Select the Curve You want to Surface", "time": 20}),
+            make_op("write", "_PlanarSrf"),  # Use command to extrude curves
+            make_op("press", ["enter"]),
+            make_op("done", "Made Surface in Rhino")  # Objective completed
+        ],
+        "safety_level": 0
+    },
+    {
+        "log_objective": "Help me Extrude Surface at 10 units in normal direction",
+        "operations": [
+            make_op("wait", {"message": "Please Select the Surface You want to Extrude", "time": 20}),
+            make_op("write", "_ExtrudeSrf"),  # Use command to extrude curves
+            make_op("press", ["enter"]),
+            make_op("write", "10"),  # Use command to extrude curves
+            make_op("press", ["enter"]),
+            make_op("done", "Extruded Surfaces in Rhino")  # Objective completed
+        ],
+        "safety_level": 0
+    },
+    {
+        "log_objective": "Help me scale down a sole lower curve by 0.7 units",
+        "operations": [
+            make_op("wait", {"message": "Please Select the Surface You want to Scale Down", "time": 20}),
+            make_op("write", "_Scale2D"),  # Use command to extrude curves
+            make_op("press", ["enter"]),
+            make_op("press", ["0"]),
+            make_op("press", ["enter"]),
+            make_op("write", "0.8"),  # Use command to extrude curves
+            make_op("press", ["enter"]),
+            make_op("done", "Scaled in Rhino")  # Objective completed
+        ],
+        "safety_level": 2
     }
 ]
